@@ -1,17 +1,10 @@
 from deta import Deta
 from fastapi import APIRouter
 from models.questionPack import QuestionPack
-
-from database import OUR_DETA_PROJECT_KEY
+from database import questionpack_db as db
 from schemas.question_pack import QuestionPack_schema
 from utills import clean_dict
-deta = Deta(OUR_DETA_PROJECT_KEY)
-
 router = APIRouter(prefix="/questionpack", tags=["Question Pack"])
-
-
-# create DATA BASE
-db = deta.Base("QuestionPack")
 
 
 @router.post("/")

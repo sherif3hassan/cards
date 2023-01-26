@@ -1,8 +1,6 @@
 from fastapi import APIRouter
-
 from models.question import Question
-
-from database import OUR_DETA_PROJECT_KEY
+from database import question_db as db
 from schemas.question import Question_schema
 from utills import clean_dict
 
