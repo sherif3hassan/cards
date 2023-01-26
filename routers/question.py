@@ -3,9 +3,10 @@ from fastapi import APIRouter
 from models.question import Question
 
 from database import OUR_DETA_PROJECT_KEY
+from schemas.question import Question_schema
+from utills import clean_dict
 
 router = APIRouter(prefix="/question", tags=["Question"])
-
 
 
 @router.get("/")
@@ -26,9 +27,10 @@ def create_question(question: Question):
 
 
 @router.put("/{key}")
-def update_question(key: str, question: dict):
-    db.put(question, key)
-    return db.get(key)
+def update_question(update_question: Question_schema, key: str):
+    update_dict = clean_dict(update_question.dict())
+    db.update(updates=update_dict, key=key)
+    return True
 
 
 @router.delete("/{key}")

@@ -1,6 +1,7 @@
 from fastapi import APIRouter
 from deta import Deta
 from models.answer import *
+from schemas.answer import Answer_schema
 from utills import *
 
 from database import OUR_DETA_PROJECT_KEY
@@ -26,10 +27,10 @@ async def get_all_answer():
     return db.fetch().items
 
 
-@router.put("/")
-async def update_answer(update: Answer_update, id: str):
+@router.put("/{key}")
+async def update_answer(update: Answer_schema, key: str):
     update_dict = clean_dict(update.dict())
-    db.update(updates=update_dict, key=id)
+    db.update(updates=update_dict, key=key)
     return True
 
 

@@ -3,6 +3,8 @@ from fastapi import APIRouter
 from models.answerpack import *
 
 from database import OUR_DETA_PROJECT_KEY
+from schemas.answer_pack import AnswerPack_schema
+from utills import clean_dict
 deta = Deta(OUR_DETA_PROJECT_KEY)
 
 router = APIRouter(prefix='/answerpack', tags=["Answer Pack"])
@@ -29,16 +31,10 @@ def get_all_answer_packs():
     return res.items
 
 
-@router.put("/{id}")
-def update_answer_pack(update: dict, id: str):
-    if len(update.keys()) > 2:
-        return False
-
-    for key in update.keys():
-        if key != "title" and key != "texts":
-            return False
-
-    db.update(updates=update, key=id)
+@router.put("/{key}")
+def update_answer_pack(update: AnswerPack_schema, key: str):
+    update_dict = clean_dict(update.dict())
+    db.update(updates=update_dict, key=key)
     return True
 
 
