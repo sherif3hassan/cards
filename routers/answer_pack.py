@@ -2,7 +2,7 @@ from deta import Deta  # Import Deta
 from fastapi import APIRouter, Depends
 
 from database import get_answerpack_db
-from models.answerpack import *
+from models.answerpack import  AnswerPack
 from schemas.answer_pack import AnswerPack_schema
 from utills import clean_dict
 
