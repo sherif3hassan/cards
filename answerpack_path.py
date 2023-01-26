@@ -33,7 +33,6 @@ def get_all_answer_packs():
 
 @app.put("/update_answerpack/{id}")
 def update_answer_pack(update: dict, id: str):
-
     if len(update.keys()) > 2:
         return False
 
