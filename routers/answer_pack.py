@@ -21,7 +21,7 @@ def get_answer(id: str, db=Depends(get_answerpack_db)):
 
 
 @router.get("/")
-def get_all_answer_packs():
+def get_all_answer_packs(db=Depends(get_answerpack_db)):
     res = db.fetch()
     return res.items
 
