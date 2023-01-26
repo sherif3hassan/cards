@@ -1,12 +1,12 @@
-from fastapi import APIRouter
 from deta import Deta
+from fastapi import APIRouter
+
+from database import answer_db as db
 from models.answer import *
 from schemas.answer import Answer_schema
 from utills import *
 
-from database import answer_db as db
-
-router = APIRouter(prefix='/answer', tags=["Answer"])
+router = APIRouter(prefix="/answer", tags=["Answer"])
 
 
 @router.post("/")
