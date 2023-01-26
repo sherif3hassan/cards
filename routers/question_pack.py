@@ -1,41 +1,38 @@
-from typing import Union
 from deta import Deta
-from fastapi import FastAPI
+from fastapi import APIRouter
 from models.questionPack import QuestionPack
 
+from constants import OUR_DETA_PROJECT_KEY
+deta = Deta(OUR_DETA_PROJECT_KEY)
 
+router = APIRouter(prefix="/questionpack", tags=["Question Pack"])
 
-app = FastAPI()
-
-
-#Intialize with a project Key
-deta = Deta("a0t0pjsh_PrZdmxu7pwZHGJPuGsjw6JhpbbF9Ggfh")
 
 #create DATA BASE
 db = deta.Base("QuestionPack")
  
 
-@app.post("/questionPack")
+@router.post("/")
 def create_question_pack(questionPack: QuestionPack):
     #db.insert({"title": questionPack.title, "text": questionPack.text}) or as bellow to convert it to Dictionary
     db.insert(questionPack.dict())
     return True
 
 #get a specific questionpack with a specific ID 
-@app.get("/questionPack/{id}")
+@router.get("/{id}")
 def get_question_pack(id: str):
     pack = db.get(key=id)
     return pack
 
 #retreving all data
-@app.get("/questionPackAll")
+@router.get("/")
 def get_all_question_pack():
     res = db.fetch()
     return res.items
 
     
 #update a Question Pack 
-@app.put("/questionPack/{id}")
+@router.put("/{id}")
 def update_question_pack(id: str, update: dict):
 
     if len(update.keys()) > 2:
@@ -51,7 +48,7 @@ def update_question_pack(id: str, update: dict):
 
 
 #Delete a question Pack
-@app.delete("/questionPack/{id}")
+@router.delete("/{id}")
 def delete_question_pack(id:str):
     db.delete(key=id)
     return True

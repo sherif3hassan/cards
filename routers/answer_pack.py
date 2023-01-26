@@ -1,37 +1,36 @@
 from deta import Deta  # Import Deta
-from fastapi import FastAPI
-
+from fastapi import APIRouter
 from models.answerpack import *
 
-app = FastAPI()
+from constants import OUR_DETA_PROJECT_KEY
+deta = Deta(OUR_DETA_PROJECT_KEY)
 
+router = APIRouter(prefix='/answerpack', tags=["Answer Pack"])
 
-# Initialize with a Project Key
-deta = Deta("a0t0pjsh_PrZdmxu7pwZHGJPuGsjw6JhpbbF9Ggfh")
 
 # This how to connect to or create a database.
 db = deta.Base("answer_packs_db")
 
 
-@app.post("/create_answerpack/")
+@router.post("/")
 def create_answerpack(answer_pack: AnswerPack):
 
     db.insert(answer_pack.dict())
     return True
 
 
-@app.get("/answerpacks/{id}")
+@router.get("/{id}")
 def get_answer(id: str):
     return db.get(key=id)
 
 
-@app.get("/answerpacks")
+@router.get("/")
 def get_all_answer_packs():
     res = db.fetch()
     return res.items
 
 
-@app.put("/update_answerpack/{id}")
+@router.put("/{id}")
 def update_answer_pack(update: dict, id: str):
     if len(update.keys()) > 2:
         return False
@@ -44,7 +43,7 @@ def update_answer_pack(update: dict, id: str):
     return True
 
 
-@app.delete("/delete_answerpack")
+@router.delete("/")
 def delete_answer_pack(id: str):
     db.delete(key=id)
     return True

@@ -1,18 +1,17 @@
 from fastapi import APIRouter
-from deta import Deta
 
 from models.question import Question
 
-router = APIRouter(prefix="/question")
+from database import OUR_DETA_PROJECT_KEY
 
-deta = Deta("a0t0pjsh_PrZdmxu7pwZHGJPuGsjw6JhpbbF9Ggfh")
+router = APIRouter(prefix="/question", tags=["Question"])
 
-db = deta.Base("/question")
 
 
 @router.get("/")
 def get_all_questions():
-    return db.fetch().items
+    res = db.fetch()
+    return res.items
 
 
 @router.get("/{key}")

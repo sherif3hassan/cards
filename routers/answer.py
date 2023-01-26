@@ -1,36 +1,39 @@
-from fastapi import FastAPI
+from fastapi import APIRouter
 from deta import Deta
-from models.answers import *
+from models.answer import *
 from utills import *
-app = FastAPI()
-deta = Deta("a0t0pjsh_PrZdmxu7pwZHGJPuGsjw6JhpbbF9Ggfh")
+
+from constants import OUR_DETA_PROJECT_KEY
+deta = Deta(OUR_DETA_PROJECT_KEY)
+
+router = APIRouter(prefix='/answer', tags=["Answer"])
 db = deta.Base("answer_db")
 
 
-@app.post("/answers")
+@router.post("/")
 async def create_answer(answer: Answer):
     db.insert(answer.dict())
     return answer
 
 
-@app.get("/answers/{id}")
+@router.get("/{id}")
 async def get_answer(id: str):
     return db.get(key=id)
 
 
-@app.get("/answers/")
+@router.get("/")
 async def get_all_answer():
     return db.fetch().items
 
 
-@app.put("/answers/")
+@router.put("/")
 async def update_answer(update: Answer_update, id: str):
     update_dict = clean_dict(update.dict())
     db.update(updates=update_dict, key=id)
     return True
 
 
-@app.delete("/answers/{id}")
+@router.delete("/{id}")
 async def delete_answer(id: str):
     db.delete(key=id)
     return True
