@@ -2,7 +2,7 @@ from deta import Deta  # Import Deta
 from fastapi import APIRouter
 from models.answerpack import *
 
-from constants import OUR_DETA_PROJECT_KEY
+from database import OUR_DETA_PROJECT_KEY
 deta = Deta(OUR_DETA_PROJECT_KEY)
 
 router = APIRouter(prefix='/answerpack', tags=["Answer Pack"])
@@ -14,7 +14,6 @@ db = deta.Base("answer_packs_db")
 
 @router.post("/")
 def create_answerpack(answer_pack: AnswerPack):
-
     db.insert(answer_pack.dict())
     return True
 

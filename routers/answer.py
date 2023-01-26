@@ -3,7 +3,7 @@ from deta import Deta
 from models.answer import *
 from utills import *
 
-from constants import OUR_DETA_PROJECT_KEY
+from database import OUR_DETA_PROJECT_KEY
 deta = Deta(OUR_DETA_PROJECT_KEY)
 
 router = APIRouter(prefix='/answer', tags=["Answer"])
