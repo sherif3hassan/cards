@@ -2,10 +2,9 @@ from fastapi import APIRouter
 
 from models.question import Question
 
-from database import OUR_DETA_PROJECT_KEY
+from database import question_db as db
 
 router = APIRouter(prefix="/question", tags=["Question"])
-
 
 
 @router.get("/")

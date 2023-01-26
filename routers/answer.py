@@ -3,11 +3,9 @@ from deta import Deta
 from models.answer import *
 from utills import *
 
-from database import OUR_DETA_PROJECT_KEY
-deta = Deta(OUR_DETA_PROJECT_KEY)
+from database import answer_db as db
 
 router = APIRouter(prefix='/answer', tags=["Answer"])
-db = deta.Base("answer_db")
 
 
 @router.post("/")
