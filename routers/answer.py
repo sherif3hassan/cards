@@ -1,22 +1,21 @@
 from fastapi import APIRouter, Depends
-from deta import Deta
 from models.answer import Answer
 from schemas.answer import Answer_schema
 from utills import *
 
-from database import  get_answer_db
+from database import get_answer_db
 
 router = APIRouter(prefix='/answer', tags=["Answer"])
 
 
 @router.post("/")
-async def create_answer(answer: Answer,db=Depends(get_answer_db)):
+async def create_answer(answer: Answer, db=Depends(get_answer_db)):
     db.insert(answer.dict())
     return answer
 
 
 @router.get("/{id}")
-async def get_answer(id: str,db=Depends(get_answer_db)):
+async def get_answer(id: str, db=Depends(get_answer_db)):
     return db.get(key=id)
 
 
@@ -26,13 +25,13 @@ async def get_all_answer(db=Depends(get_answer_db)):
 
 
 @router.put("/{key}")
-async def update_answer(update: Answer_schema, key: str,db=Depends(get_answer_db)):
+async def update_answer(update: Answer_schema, key: str, db=Depends(get_answer_db)):
     update_dict = clean_dict(update.dict())
     db.update(updates=update_dict, key=key)
     return True
 
 
 @router.delete("/{id}")
-async def delete_answer(id: str,db=Depends(get_answer_db)):
+async def delete_answer(id: str, db=Depends(get_answer_db)):
     db.delete(key=id)
     return True
