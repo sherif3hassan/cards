@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 venv
 __pycache__
 .vscode
-=======
-venv
-__pycache__
->>>>>>> origin/AmrBranch
+.env
