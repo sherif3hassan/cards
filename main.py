@@ -6,6 +6,7 @@ from routers.answer_pack import router as answer_pack_router
 
 app = FastAPI()
 
+
 app.include_router(question_router)
 app.include_router(answer_router)
 app.include_router(question_pack_router)
