@@ -3,7 +3,7 @@ from fastapi import Depends, APIRouter
 from auth.auth_bearer import JWTBearer
 from auth.auth_handler import sign_jwt
 
-router = APIRouter(prefix="/example", tags=["JWT example"])
+router = APIRouter(prefix="/auth", tags=["Authentication"])
 
 
 @router.post("/")
