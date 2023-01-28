@@ -1,17 +1,21 @@
-from typing import List
-from pydantic import BaseModel
 from enum import Enum
+from typing import List, Union
+
+from pydantic import BaseModel
+
 from common.game import GameMode
 
+
 class GameState(str, Enum):
-    waiting = "waiting" # Waiting for players to join the game
+    waiting = "waiting"  # Waiting for players to join the game
     czar_picking = "czar_picking"
-    round_running = "round_running" # Players picking answers
-    round_ended = "round_ended" # Czar picking winning answer
+    round_running = "round_running"  # Players picking answers
+    round_ended = "round_ended"  # Czar picking winning answer
+
 
 class PlayedCard(BaseModel):
-    player: str    # by ID
-    card: str      # by ID
+    player: str  # by ID
+    card: str  # by ID
     # Named card since the game mode can be "normal" or "reverse"
     # Look GameState
 
@@ -29,7 +33,8 @@ class Game(BaseModel):
     players: List[str]
 
     current_round: int = 0
-    chosen_question: str | None = None
+    chosen_question: Union[str, None]
     turn: str = 0
     game_state: GameState = GameState.waiting
-    played: List[PlayedCard] = [] # Gets cleared every round
+    played: List[PlayedCard] = []  # Gets cleared every round
+

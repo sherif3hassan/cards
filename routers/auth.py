@@ -1,4 +1,4 @@
-from fastapi import Depends, APIRouter
+from fastapi import APIRouter, Depends
 
 from auth.auth_bearer import JWTBearer
 from auth.auth_handler import sign_jwt
@@ -12,5 +12,5 @@ async def create_token(username: str):
 
 
 @router.get("/")
-async def get_secret(token = Depends(JWTBearer())):
+async def get_secret(token=Depends(JWTBearer())):
     return {"secret": "im potato"}
