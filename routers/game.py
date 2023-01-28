@@ -1,5 +1,8 @@
 from fastapi import APIRouter, Depends
+from auth.auth_bearer import JWTBearer
 from schemas.game import GameSchema
+
+from database import get_your_game_on
 
 router = APIRouter(prefix='/game', tags=["Game"])
 
@@ -19,15 +22,20 @@ def respond_when_someone_joins():
 
 
 @router.get("/{room_id}/waitingforgametostart")
-def respond_when_game_starts():
+def respond_when_game_starts(room_id: str, token = Depends(JWTBearer), game_db = Depends(get_your_game_on)):
+    game = game_db.get(key=room_id)
+    players = game["players"]
+    
+    while len(players) != game["number_of_player"]:
+        pass
+    
     # Monitor database for the condition:  len(players) == number_of_players
     # Responds when the Game[room_id]'s state becomes RoundRunning
     # Returned value depends on the requesting user
         # If host (i.e. Card czar)
-    # Returns question cards
+            # Returns question cards
         # Else
-    # Returns answer cards
-    pass
+            # Returns answer cards
 
 
 @router.post("/{room_id}/join")
@@ -43,7 +51,7 @@ def responed_when_czar_picks(room_id: str):
 
 
 @router.post("/{room_id}/pickaquestion")
-def pick_a_question(room_id: str):
+def pick_a_question(room_id: str, db = Depends(get_your_game_on)):
     pass
 
 
