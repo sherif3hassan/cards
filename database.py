@@ -6,6 +6,9 @@ OUR_DETA_PROJECT_KEY = config("OUR_DETA_PROJECT_KEY")
 deta = Deta(OUR_DETA_PROJECT_KEY)
 
 
+def get_your_game_on():
+    return deta.Base("game")
+
 def get_answer_db():
     return deta.Base("answer")
 
