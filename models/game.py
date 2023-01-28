@@ -25,8 +25,8 @@ class Game(BaseModel):
     questions: List[str]
     answers: List[str]
 
-    host: str
-    players: List[str]
+    host: str | None  = None
+    players: List[str] = []
 
     current_round: int = 0
     chosen_question: str | None = None

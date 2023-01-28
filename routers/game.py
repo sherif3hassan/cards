@@ -1,11 +1,23 @@
 from fastapi import APIRouter, Depends
+from database import get_answerpack_db, get_questionpack_db, get_your_game_on
+from models.game import Game
 from schemas.game import GameSchema
 
 router = APIRouter(prefix='/game', tags=["Game"])
 
 
 @router.post("/")
-def create_new_game(game: GameSchema):
+def create_new_game(game: GameSchema, 
+Question_pack_db=Depends(get_questionpack_db), 
+Answer_pack_db=Depends(get_answerpack_db) , 
+                    Game_db=Depends(get_your_game_on)):
+    new_game = Game(game.mode, rounds= game.rounds , number_of_players=game.max_players,  round_time= game.round_time , questions= game.question_packs_ids , answers=game.answer_packs_ids)             
+    Obj = Game_db.insert(new_game.dict())  
+
+    Obj['key']
+#    Obj.get('key')
+    return Obj['key']
+    
     # Return room ID
     ...
 
