@@ -3,11 +3,9 @@ from database import get_answerpack_db, get_questionpack_db, get_your_game_on
 from models.game import Game
 from auth.auth_bearer import JWTBearer
 from schemas.game import GameSchema
-
-from database import get_your_game_on
+from deta.base import _Base
 
 router = APIRouter(prefix='/game', tags=["Game"])
-
 
 @router.post("/")
 def create_new_game(game: GameSchema, 
@@ -20,10 +18,6 @@ Answer_pack_db=Depends(get_answerpack_db) ,
     Obj['key']
 #    Obj.get('key')
     return Obj['key']
-    
-    # Return room ID
-    ...
-
 
 @router.get("/{room_id}/someonejoined")
 def respond_when_someone_joins():
@@ -45,16 +39,26 @@ def respond_when_game_starts(room_id: str, token = Depends(JWTBearer), game_db =
     # Responds when the Game[room_id]'s state becomes RoundRunning
     # Returned value depends on the requesting user
         # If host (i.e. Card czar)
-            # Returns question cards
+    # Returns question cards
         # Else
-            # Returns answer cards
+    # Returns answer cards
+    pass
 
 
 @router.post("/{room_id}/join")
-def join_game(room_id: str):
+def join_game(room_id: str,db:_Base=Depends(get_your_game_on),player_data = Depends(get_player)):
     # check how many players are in Game[room_id]
     # DOESNOT add player if len(players) == number_of_players
-    ...
+    game=db.get(key=room_id)
+    if game["number_of_players"]==len(game["players"]):
+         raise HTTPException(status_code=404, detail="room is full")
+    players=game["players"]
+    players.append(player_data["username"])
+    game["players"]=players
+    db.update(updates=game)
+    return True
+    
+
 
 
 @router.post("/{room_id}/waitingforczarpick")
