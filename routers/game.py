@@ -1,5 +1,8 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
+from common.utills import get_player
+from database import get_your_game_on
 from schemas.game import GameSchema
+from deta.base import _Base
 
 router = APIRouter(prefix='/game', tags=["Game"])
 
@@ -31,10 +34,19 @@ def respond_when_game_starts():
 
 
 @router.post("/{room_id}/join")
-def join_game(room_id: str):
+def join_game(room_id: str,db:_Base=Depends(get_your_game_on),player_data = Depends(get_player)):
     # check how many players are in Game[room_id]
     # DOESNOT add player if len(players) == number_of_players
-    ...
+    game=db.get(key=room_id)
+    if game["number_of_players"]==len(game["players"]):
+         raise HTTPException(status_code=404, detail="room is full")
+    players=game["players"]
+    players.append(player_data["username"])
+    game["players"]=players
+    db.update(updates=game)
+    return True
+    
+
 
 
 @router.post("/{room_id}/waitingforczarpick")
