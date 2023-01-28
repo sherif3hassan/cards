@@ -5,4 +5,4 @@ from pydantic import BaseModel
 
 class AnswerPack(BaseModel):
     title: str
-    texts: List[str]
+    texts: List[str] # IDs of Answers

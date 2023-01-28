@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends
 from models.question import Question
 from database import get_question_db
 from schemas.question import Question_schema
-from utills import clean_dict
+from common.utills import clean_dict
 
 router = APIRouter(prefix="/question", tags=["Question"])
 

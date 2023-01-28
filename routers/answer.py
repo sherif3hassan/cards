@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 from models.answer import Answer
 from schemas.answer import Answer_schema
-from utills import clean_dict
+from common.utills import clean_dict
 
 from database import get_answer_db
 
