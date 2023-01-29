@@ -1,11 +1,11 @@
 from fastapi import APIRouter, Depends
+
+from common.utills import clean_dict
+from database import get_answer_db
 from models.answer import Answer
 from schemas.answer import Answer_schema
-from common.utills import clean_dict
 
-from database import get_answer_db
-
-router = APIRouter(prefix='/answer', tags=["Answer"])
+router = APIRouter(prefix="/answer", tags=["Answer"])
 
 
 @router.post("/")
@@ -28,6 +28,7 @@ async def get_all_answer(db=Depends(get_answer_db)):
 async def update_answer(update: Answer_schema, key: str, db=Depends(get_answer_db)):
     update_dict = clean_dict(update.dict())
     db.update(updates=update_dict, key=key)
+    db
     return True
 
 
