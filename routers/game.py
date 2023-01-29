@@ -1,10 +1,10 @@
-from deta.base import _Base
-from fastapi import APIRouter, Depends
+
 from database import get_answerpack_db, get_questionpack_db, get_your_game_on
 from models.game import Game
 from auth.auth_bearer import JWTBearer
-
 from common.utills import get_player
+from fastapi import APIRouter, Depends, HTTPException
+from database import get_your_game_on
 from schemas.game import GameSchema
 from deta.base import _Base
 
