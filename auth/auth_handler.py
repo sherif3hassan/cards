@@ -17,7 +17,7 @@ def sign_jwt(data: Dict) -> Dict[str, str]:
 
     jwt_token = jwt.encode(payload, key=JWT_SECRET, algorithm=JWT_ALGORITHM)
 
-    return {"token": jwt_token}
+    return {"access_token": jwt_token}
 
 
 def decode_jwt(jwt_token: str) -> Union[Dict, None]:

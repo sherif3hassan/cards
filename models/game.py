@@ -29,7 +29,7 @@ class Game(BaseModel):
     questions: List[str]
     answers: List[str]
 
-    host: str | None  = None
+    host: Union[str, None] = None
     players: List[str] = []
 
     current_round: int = 0
@@ -37,4 +37,3 @@ class Game(BaseModel):
     turn: str = 0
     game_state: GameState = GameState.waiting
     played: List[PlayedCard] = []  # Gets cleared every round
-
