@@ -17,7 +17,7 @@ class TokenData(BaseModel):
 async def create_token(body: OAuth2PasswordRequestForm = Depends()):
     return sign_jwt({"username": body.username, "room_id": body.password})
 
-def get_token_data(token: str = Depends(oauth2_scheme)) -> TokenData:
+def get_token_data(token: str) -> TokenData:
     data = decode_jwt(token)
     
     if data is None:
