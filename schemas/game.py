@@ -1,7 +1,9 @@
 from typing import List
+
 from pydantic import BaseModel
 
 from common.game import GameMode
+
 
 class GameSchema(BaseModel):
     mode: GameMode

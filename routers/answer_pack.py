@@ -1,10 +1,10 @@
 from deta import Deta  # Import Deta
 from fastapi import APIRouter, Depends
 
-from database import get_answerpack_db
-from models.answerpack import  AnswerPack
-from schemas.answer_pack import AnswerPack_schema
 from common.utills import clean_dict
+from database import get_answerpack_db
+from models.answerpack import AnswerPack
+from schemas.answer_pack import AnswerPack_schema
 
 router = APIRouter(prefix="/answerpack", tags=["Answer Pack"])
 
@@ -33,7 +33,7 @@ def update_answer_pack(
     update_dict = clean_dict(update.dict())
     db.update(updates=update_dict, key=key)
     return True
-
+#a
 
 @router.delete("/")
 def delete_answer_pack(id: str, db=Depends(get_answerpack_db)):
